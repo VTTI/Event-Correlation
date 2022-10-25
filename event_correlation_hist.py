@@ -14,9 +14,7 @@ import seaborn as sns
 
 
 REAL_BOOL = True
-REJECT = ['airplane', 'train', 'cat', 'kite', 'sink', 'cow', 
-'horse', 'toilet', 'surfboard', 'boat', 'vase', 
-'dog', 'sheep', 'N/A', 'bird', 'chair', 'skateboard', 'tv']
+REJECT = ['N/A']
 
 """ Including the driver gaze outside the FOV
     Zone is now divided into 5 parts: Left OFOV, Right OFOV:
