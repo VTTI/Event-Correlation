@@ -164,9 +164,7 @@ def scan_frames_hist(start_stop_list, keyword, tmp_data_points, outo, outs):
 		sub_data_row_end, _ = np.where(tmp_data_points == a1)
 		
 		sub_d=tmp_data_points[sub_data_row[0]:sub_data_row_end[0]]
-		fname = './CHPV_0000_0000_10_130218_1924_00088_Front/' + str(int(1)).zfill(7) + '.jpg'
-		im = plt.imread(fname)
-		sh = im.shape
+		sh = (480, 356)
 		if outo:
 			outo, outs = extract_info(sub_d, sh, outo, outs, keyword)
 		else:
