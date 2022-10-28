@@ -51,7 +51,7 @@ OUT_DATA_SEC = {EVENT_DICT[key]: [] for key in EVENT_DICT}
 
 def parse_args():
 	parser = argparse.ArgumentParser(description='Visual')
-	parser.add_argument('--out_dir', type=str, default='/Hist_obj/', help='Output directory')
+	parser.add_argument('--out_dir', type=str, default='./Hist_obj/', help='Output directory')
 	parser.add_argument('--epochs_path', type=str, default='./maskDynamicVehicleAllEpochsV1.csv', help='All epochs directory')
 	parser.add_argument('--mapped_path', type=str, default='./dataset.csv', help='All videos mapped one-one to all the epochs')
 	parser.add_argument('--detections_dir', type=str, default='./Negative Angles/hpv/', help='All video detections directory')
