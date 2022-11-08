@@ -31,3 +31,5 @@ Inferencing for external driving events such as a lane change based on gaze esti
   
 
 ### 4.) Output directory for histogram images
+
+For a demo, use the pre-existing folder on VTTI server: vtti/projects03/451600/Working/FromSandesh/Event Correlation Folders/
