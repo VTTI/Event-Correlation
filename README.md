@@ -42,16 +42,11 @@ Installation:
 pip3 install -r requirements.txt
 ```
 
-If using the prepared default folder system
-
-```
-python3 main.py
-```
 
 For custom folders use the arguments
 
 ```
-python3 main.py --out_dir='' --epochs_path='' --mapped_path='' --detections_dir=''
+python3 event_correlation_hist.py --out_dir='' --epochs_path='' --mapped_path='' --detections_dir=''
 ```
 
 
