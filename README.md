@@ -34,6 +34,8 @@ Inferencing for external driving events such as a lane change based on gaze esti
 
 For a demo, use the pre-existing folder on VTTI server: vtti/projects03/451600/Working/FromSandesh/Event Correlation Folders/
 
+For a smaller sample set use the one provided with the repository.
+
 ### 5.) How to run
 
 Installation: 
