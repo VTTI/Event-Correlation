@@ -13,12 +13,11 @@ import seaborn as sns
 
 
 
-REAL_BOOL = True
-
-#Rejection list, for incorrect detections, filter them by updating the list below.
+REAL_BOOL = False
+SHAPE = (1920, 1080)#(480, 356)
 REJECT = ['airplane', 'train', 'cat', 'kite', 'sink', 'cow', 
 'horse', 'toilet', 'surfboard', 'boat', 'vase', 
-'dog', 'sheep', 'N/A', 'bird', 'chair', 'skateboard', 'tv', 'OOF']
+'dog', 'sheep', 'N/A', 'bird', 'chair', 'skateboard', 'tv']
 
 """ Including the driver gaze outside the FOV
     Zone is now divided into 5 parts: Left OFOV, Right OFOV:
@@ -69,7 +68,7 @@ steps for processing:
 	3.) Get the mapped data set 
 	
 	For each event pass through all the videos, keep doing scan frames with 
-	latest data_points. !!!Make outo and outs as global for this to agg.
+	latest data_points. !!!Make outo and outs as global for this to agg or not.
 	
 	Address the non existance of a frame number: 
 		sub_data_row, col = np.where(data_points == 15541) 
@@ -159,8 +158,8 @@ def save_hist(out_data_obj, out_data_sec, keyword, out_dir = './Histograms/'):
 
 def scan_frames_hist(start_stop_list, keyword, tmp_data_points, outo, outs):
 	for tups in start_stop_list:
-		a0 = tups[0]-100
-		a1 = tups[1]+100
+		a0 = tups[0] #-100
+		a1 = tups[1] #+100
 		a = tmp_data_points[:, 0]
 		a0= a[np.abs(a-a0).argmin()]
 		a1= a[np.abs(a-a1).argmin()]
@@ -168,7 +167,9 @@ def scan_frames_hist(start_stop_list, keyword, tmp_data_points, outo, outs):
 		sub_data_row_end, _ = np.where(tmp_data_points == a1)
 		
 		sub_d=tmp_data_points[sub_data_row[0]:sub_data_row_end[0]]
-		sh = (480, 356)
+		#fname = './CHPV_0000_0000_10_130218_1924_00088_Front/' + str(int(1)).zfill(7) + '.jpg'
+		#im = plt.imread(fname)
+		sh = SHAPE
 		if outo:
 			outo, outs = extract_info(sub_d, sh, outo, outs, keyword)
 		else:
@@ -177,7 +178,7 @@ def scan_frames_hist(start_stop_list, keyword, tmp_data_points, outo, outs):
 	return outo, outs
 
 
-###	example: this below
+###	example: see this below
 
 # start_stop_list = [(11746, 11781), (17167, 17329), (17626, 17687)]
 
@@ -256,7 +257,6 @@ def save_big_hists(set_of_data, mapped_data_csv, data_path, real_bool):
 
 
 
-
 def main(args):
 	sns.set(rc={'axes.facecolor':'white'})
 	reject = REJECT
@@ -282,9 +282,9 @@ def main(args):
 	 				 sum_counts+=val
 	 			dfo_mod["Probability"] = dfo_mod["Probability"]/sum_counts
 	 			dfo_mod.sort_values("Probability")
-	 			sns.set(style="darkgrid")
+	 			sns.set(style="white")
 	 			plt.figure()
-	 			ax = sns.barplot(x = "Salient Objects",y = "Probability" , data=dfo_mod, color = 'black')
+	 			ax = sns.barplot(x = "Salient Objects",y = "Probability" , data=dfo_mod, color = 'gray')
 	 			ax.set_title(keyword)
 	 			ax.figure.savefig(args.out_dir+ keyword+'_obj.jpg', bbox_inches='tight')
 	
@@ -296,7 +296,8 @@ def main(args):
 			print("Raw zone list size: ", len(OUTS[keyword]))
 			o = sorted(obj_list) 
 			if o:
-	 			dfo = pd.Series((obj_list)).value_counts(sort=True).loc[ZONE_SEQ]
+	 			dfo = pd.Series((obj_list)).value_counts(sort=True).reindex(ZONE_SEQ)
+	 			dfo = dfo.fillna(0)
 	 			dfo_mod = pd.DataFrame(columns=["Zone of View", "Probability"])
 	 			sum_counts = 0
 	 			for val, idx in zip(dfo, dfo.index):
@@ -304,9 +305,11 @@ def main(args):
 	 				 sum_counts+=val
 	 			dfo_mod["Probability"] = dfo_mod["Probability"]/sum_counts
 	 			#dfo_mod.sort_values("Probability")
-	 			sns.set(style="darkgrid")
+	 			sns.set(style="white")
 	 			plt.figure()
-	 			ax = sns.barplot(x = "Zone of View",y = "Probability" , data=dfo_mod, color = 'black')
+	 			ax = sns.barplot(x = "Zone of View",y = "Probability" , data=dfo_mod, color = 'gray')
+	 			ax.set_ylim(0,1.0)
+	 			
 	 			ax.set_title(keyword)
 	 			ax.figure.savefig(args.out_dir+ keyword+'_sec.jpg', bbox_inches='tight')
 	 	
